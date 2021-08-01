@@ -1,21 +1,13 @@
-#use crypto api that takes descriptions from cryptos and makes user to key speed test on them
-
-#have a gui that says "Begin once clicked, start time and show text, once user is done enterer, he hits done, program checks if correct then takes currenttime-timeofstart
-
-#for every letter user types, change text color the script
-
+# Simple keyboard speed test. Future feature: use api to get description of random crypto currencies.
 #calculate words per minute, take script, count words divide by time taken?
 from tkinter import *
 from tkinter import messagebox
-
 import time
-
 
 YELLOW = "#40A2B9"
 RED="#CC6E6E"
 FONT_NAME = "Courier"
 FONT_SIZE= 20
-
 
 root = Tk()
 root.title("Crypto Typing Speed Test")
@@ -29,9 +21,9 @@ start_time=""
 script = "Bitcoin is a peer-to-peer online currency."
 split_script = script.split()
 
-
 current_word = ""
-#String -> whenever corret char is entered, append that to user_correct_input, when user_correct_input == current_word, move on to next word.
+
+# String -> whenever corret char is entered, append that to user_correct_input, when user_correct_input == current_word, move on to next word.
 user_correct_input = ""
 letter_count= 0
 word_count=0
@@ -40,35 +32,27 @@ script_label.tag_configure("center", justify='center')
 text_entry = Text(root, font=(FONT_NAME, FONT_SIZE, "bold"), height=1, width=20)
 
 
-
-
 #change to only show one word at a time (every time a key is entered, highlight part of text green)
 def begin_game():
     global current_word, start_time
     start_btn.place_forget()
-
     title_label = Label(root, text="Crypto",bg=YELLOW,font=(FONT_NAME, FONT_SIZE, "bold"), justify='center')
     title_label.place(relx=0.5, rely=.2,anchor= CENTER)
 
     #begin with first word in split_script
     script_label.insert(1.0,f"{split_script[0]}")
     script_label.place(relx=0.5, rely=0.5, anchor=CENTER)
-    #script_label.tag_add("center", "1.0", "end")
-
     current_word=split_script[0]
 
     text_entry.bind("<KeyRelease>", check_key)
     text_entry.place(relx=0.5, rely=.9,anchor= CENTER)
     text_entry.focus()
-
     start_time = time.time()
 
 
-    #current_word = split_script[word_count]
-
+#call every time a key is pressed
 def check_key(key_pressed):
     global user_correct_input, letter_count, script_label, current_word, word_count, text_entry
-    #time.sleep(0.3)
     user_correct_input=text_entry.get(1.0,END).strip('\n')
     #print(user_correct_input)
     if key_pressed.char == current_word[letter_count]:
@@ -96,19 +80,14 @@ def check_key(key_pressed):
                 letter_count=0
                 #delete users input
                 text_entry.delete(1.0, END)
-
-
-
         else:
-
             letter_count+=1
     else:
         #the letter that was entered is incorrect
         text_entry.delete(f"1.{letter_count}",END)
 
+
 start_btn = Button(root, text="Start!",font=(FONT_NAME, FONT_SIZE, "bold"),command=begin_game)
 start_btn.place(relx=.5, rely=.5,anchor= CENTER)
-
-
 
 root.mainloop()
