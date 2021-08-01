@@ -5,13 +5,13 @@
 #for every letter user types, change text color the script
 
 #calculate words per minute, take script, count words divide by time taken?
-
 from tkinter import *
-import time
+from tkinter import messagebox
+
 import time
 
 
-YELLOW = "#DAF7A6"
+YELLOW = "#40A2B9"
 RED="#CC6E6E"
 FONT_NAME = "Courier"
 FONT_SIZE= 20
@@ -44,7 +44,7 @@ text_entry = Text(root, font=(FONT_NAME, FONT_SIZE, "bold"), height=1, width=20)
 
 #change to only show one word at a time (every time a key is entered, highlight part of text green)
 def begin_game():
-    global current_word
+    global current_word, start_time
     start_btn.place_forget()
 
     title_label = Label(root, text="Crypto",bg=YELLOW,font=(FONT_NAME, FONT_SIZE, "bold"), justify='center')
@@ -86,6 +86,8 @@ def check_key(key_pressed):
             # check if we are done script
             if word_count == len(split_script):
                 print(f"done, that took: {time.time()-start_time}")
+                #show dialog box to typing speed
+                messagebox.showinfo("Results", f"You typed {len(split_script)} words in {time.time()-start_time} seconds. WPM: {(len(split_script)*60)/(time.time()-start_time)}")
             else:
                 user_correct_input=""
                 current_word=split_script[word_count]
